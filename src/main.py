@@ -1,17 +1,29 @@
 import sys
+import time
+import asyncio
 
-from transcription import transcribe, load_model
+from datetime import timedelta
+from halo import Halo
+from transcription import transcribe_text, load_model
 
-if __name__ == '__main__':
+
+async def main():
     try:
+        start = time.time()
         model = load_model()
         location = sys.argv[1]
-        print(f'Transcribing {location}')
-        transcribe(location, model)
+        spinner = Halo(text="Processing...", spinner="dots")
+        print(f"Transcribing {location}")
+        spinner.start()
+        await transcribe_text(location, model)
+        spinner.succeed("Done!")
+        print("Transcription time: " + str(timedelta(seconds=time.time() - start)))
     except Exception as e:
         print(e)
-        del model
         sys.exit(1)
     finally:
-        del model
         sys.exit(0)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -7,11 +7,11 @@
 5. (Optional) Switch to WhisperX to separate speakers
 6. (Optional) Package the app?
 
-## Whisper
+## Whisper—Done!
 
 - Read audio file from disk
 - Pass file location from command line
-- Validate file type
+- Validate file type—Done by Whisper library
 - Output .txt
 - Throbber
 
