@@ -3,17 +3,18 @@ from ollama import GenerateResponse
 
 from src.const import NOTE_MODEL, NOTES_DB_NAME
 from src.database import get_note_by_hash, insert_row, update_note
-from src.fileactions import read_transcript, get_file_hash, write_note
+from src.fileactions import read_file, get_file_hash, write_note
 
 
-def get_ollama_response(cur, transcription_location, prompt, file_id):
-    transcription_content = read_transcript(transcription_location)
-    transcription_hash = get_file_hash(transcription_content)
+def get_ollama_response(cur, transcription_location, prompt_location, file_id):
+    transcription_content = read_file(transcription_location)
+    transcription_hash = get_file_hash(transcription_location)
+    prompt_content = read_file(prompt_location)
 
     res: GenerateResponse = ollama.generate(
-        model=NOTE_MODEL, prompt=f"{prompt}\n\nFILE CONTENT:\n{transcription_content}"
+        model=NOTE_MODEL,
+        prompt=f"{prompt_content}\n\nFILE CONTENT:\n{transcription_content}",
     )
-
     note_location = write_note(res.response, file_id)
     note_hash = get_file_hash(note_location)
 

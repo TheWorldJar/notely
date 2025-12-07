@@ -17,7 +17,7 @@ def test_get_file_hash():
 
 
 def test_get_file_content():
-    content = fileactions.read_transcript("./src/tests/test.txt")
+    content = fileactions.read_file("./src/tests/test.txt")
     assert (
         content
         == "This is a test file to validate file hashing! This file should have the same hash as the other test file!"

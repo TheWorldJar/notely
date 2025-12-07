@@ -38,7 +38,7 @@ def get_extension(file_path):
     return os.path.splitext(file_path)[1]
 
 
-def read_transcript(file_path):
+def read_file(file_path):
     if not os.path.exists(file_path) or not os.path.isfile(file_path):
         return None
 
