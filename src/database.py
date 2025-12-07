@@ -50,3 +50,22 @@ def get_transcription_by_hash(cur, audio_hash):
     if row is None:
         return None
     return row
+
+
+def get_note_by_hash(cur, transcription_hash):
+    res = cur.execute(
+        f"SELECT * FROM {NOTES_DB_NAME} WHERE transcription_hash = '{transcription_hash}'"
+    )
+    row = res.fetchone()
+    assert cur.rowcount == -1
+    if row is None:
+        return None
+    print(row)
+    return row
+
+
+def update_note(cur, transcription_hash, row):
+    cur.execute(
+        f"UPDATE {NOTES_DB_NAME} SET transcription_location='{row['transcription_location']}', note_location='{row['note_location']}', note_hash='{row['note_hash']}' WHERE transcription_hash='{transcription_hash}'"
+    )
+    assert cur.rowcount == 1
