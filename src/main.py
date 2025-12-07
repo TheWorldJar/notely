@@ -15,8 +15,8 @@ from src.fileactions import get_extension
 from src.transcription import transcribe_text, load_model
 
 
-# TODO: Test with updated PyTorch
 # TODO: Move some consts to a config file
+# TODO: Fix collecting transcripts from the DB
 def main():
     try:
         spinner = Halo(text="This may take a while...", spinner="bouncingBall")
