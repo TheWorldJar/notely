@@ -23,21 +23,21 @@ requires-python = ">= 3.9"
 dev = [
     "pytest"
 ]
-    [tool.black]
-    line-length = 88
-    target-version = ["py39"]
-    include = '\.pyi?$'
-    exclude = '''
-        /(
-          \.git
-          | \.venv
-          | build
-          | dist
-          | db
-          | transcribe
-          | note
-        )/
-    '''
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+include = '\.pyi?$'
+exclude = '''
+    /(
+      \.git
+      | \.venv
+      | build
+      | dist
+      | db
+      | transcribe
+      | note
+    )/
+'''
 [project.scripts]
 notely = "notely.__main__:main"
 
