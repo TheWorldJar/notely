@@ -1,6 +1,9 @@
+[build-system]
+requires = ["setuptools>=45.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
 [project]
 name = "notely"
-version = "0.4.0"
+version = "1.0.0"
 dependencies = [
     "torch",
     "torchvision",
@@ -8,7 +11,8 @@ dependencies = [
     "openai-whisper",
     "ollama",
     "numpy",
-    "halo"
+    "halo",
+    "pyyaml"
 ]
 authors = [
     {name = "TheWorldJar", email = "theworldjar@protonmail.com"}
@@ -34,3 +38,8 @@ dev = [
           | note
         )/
     '''
+[project.scripts]
+notely = "notely.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}

@@ -2,10 +2,8 @@ import hashlib
 import os
 from datetime import timedelta
 
-from src.const import TRANSCRIBE_PATH, HASH_ALGORITHM, NOTE_PATH
 
-
-def write_transcript(transcription, file_id):
+def write_transcript(transcription, file_id, config):
     segments = transcription["segments"]
     text = ""
     for segment in segments:
@@ -17,16 +15,18 @@ def write_transcript(transcription, file_id):
             + segment["text"].strip()
             + "\n"
         )
-    if not os.path.exists(TRANSCRIBE_PATH) or not os.path.isdir(TRANSCRIBE_PATH):
-        os.makedirs(TRANSCRIBE_PATH)
-    location = f"{TRANSCRIBE_PATH}{file_id}"
+    if not os.path.exists(config["transcripts_folder"]) or not os.path.isdir(
+        config["transcripts_folder"]
+    ):
+        os.makedirs(config["transcripts_folder"])
+    location = os.path.join(config["transcripts_folder"], str(file_id)) + ".txt"
     with open(location, "w", encoding="utf-8") as f:
         f.write(text)
     return location
 
 
-def get_file_hash(file_path):
-    hash_func = hashlib.new(HASH_ALGORITHM)
+def get_file_hash(file_path, config):
+    hash_func = hashlib.new(config["HASH_ALGORITHM"])
     with open(file_path, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
             hash_func.update(chunk)
@@ -46,11 +46,13 @@ def read_file(file_path):
         return f.read()
 
 
-def write_note(note, file_id):
-    if not os.path.exists(NOTE_PATH) or not os.path.isdir(NOTE_PATH):
-        os.makedirs(NOTE_PATH)
+def write_note(note, file_id, config):
+    if not os.path.exists(config["output_folder"]) or not os.path.isdir(
+        config["output_folder"]
+    ):
+        os.makedirs(config["output_folder"])
 
-    location = f"{NOTE_PATH}{file_id}"
+    location = os.path.join(config["output_folder"], str(file_id)) + ".txt"
     with open(location, "w", encoding="utf-8") as f:
         f.write(note)
     return location

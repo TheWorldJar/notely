@@ -1,0 +1,77 @@
+# Notely
+Name chosen for comedic purposes. This is not meant to be a serious product. This was made for personal and educational purposes.
+
+Notely is a python script that takes in a video or audio file as input, transcribes it using [Whisper](https://github.com/openai/whisper) and then feeds the transcript and a prompt to an LLM using [Ollama](https://github.com/ollama/ollama-python). Although Whisper accepts video format, the video content is not used.
+## Requirements
+- Python 3.9+
+- Ollama. See [here](https://ollama.com/download). The app needs to be installed and running. The selected model needs to have been pulled within your virtual environment. Cloud models are not supported.
+- A decent CPU/GPU combo. The actions this script performs can be very intensive on your system, which can result in multi-hours long execution. This is just how LLMs work!
+## Installation
+It is recommended to install this application in a virtual environment. In the root of this script, execute:
+
+`python -m venv .venv`
+
+Then, activate the environment:
+
+**Linux/macOS**
+
+`source .venv/bin/activate`
+
+**Windows**
+
+`.venv\Scripts\activate.bat`
+
+Once the environment is active, simply install the package through pip:
+
+`pip install -e .`
+
+Then, you can pull your desired Ollama model inside your environment after [manually installing](https://ollama.com/download) Ollama:
+
+`ollama pull {model}`
+
+## Usage
+Once installed, the script can be used with the following command:
+
+`notely {path_to_audio_file} {path_to_prompt}`
+
+Like this:
+
+`notely ./my_audio.mp3 ./my_prompt.txt`
+
+The script will create a local SQLite database to store some of its actions, as well as a transcript and output folder, as specified in `config.yaml`.
+
+## Behaviour
+The script has the following behaviour:
+- When processing an audio file for the first time, its signature is stored in the local database and a transcript is produced.
+- When processing an audio file for the second time with the same model, the script attempts to retrieve the transcript that was previously generated instead. A new transcript will be generated if it cannot find the original.
+- When processing a transcript for the first time, its signature is stored in the local database and an output is produced.
+- When processing a transcript for the second time, the script will modify the existing output on disk. A new output will be produced if it cannot find the original.
+- Although Whisper allows video files, the video contents are not used in the creation of a transcript.
+
+## Configuration
+`config.yaml` uses the following keys:
+- `transcripts_folder`: The location you want transcripts to be output to. Default: `'./transcripts'`
+- `output_folder`: The location you want final outputs to be output to. Default: `'./output'`
+- `transcription_model`: The Whisper model that will be used for the transcription task. Default: `'turbo'`
+- `output_model`: The Ollama model that will be used for the output task. Cloud models not supported. Default: `'gemma3:4b'`
+
+Invalid configs will be replaced by a default config during runtime!
+
+## Troubleshooting
+### Whisper Models
+See [here](https://github.com/openai/whisper?tab=readme-ov-file#available-models-and-languages) for a list of valid Whisper models. Expected VRAM usage are listed.
+### Ollama Models
+Only local models are supported. See [here](https://ollama.com/library) for a list of models. Not all models are available locally.
+### Any Other Problem
+Please report any other problem in the [issues](https://github.com/TheWorldJar/notely/issues) section of this repo. Unhandled exceptions will prompt you to do so!
+### Performance Tips
+Systems with only 8GB of VRAM should stick to models around 8b and under.
+
+The longer the input file, the longer the transcription time. When using Whisper's Large model, expect a transcription time at least as long as the input file itself.
+
+Attempting to load a model too large for your VRAM will result in an offload to system RAM and a dramatic slowdown in performance.
+
+LLMs are never guaranteed to produce the same output.
+
+## License
+See our license [here](https://github.com/TheWorldJar/notely/blob/main/LICENSE)

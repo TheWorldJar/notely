@@ -1,4 +1,5 @@
-from src import fileactions
+from src.notely import fileactions
+from src.notely.config import config_exists, make_default_config, init_config
 
 
 def test_get_extension():
@@ -11,8 +12,12 @@ def test_get_extension():
 
 
 def test_get_file_hash():
-    hash1 = fileactions.get_file_hash("./src/tests/test.txt")
-    hash2 = fileactions.get_file_hash("./src/tests/test2.txt")
+    if not config_exists():
+        make_default_config()
+    config = init_config()
+
+    hash1 = fileactions.get_file_hash("./src/tests/test.txt", config)
+    hash2 = fileactions.get_file_hash("./src/tests/test2.txt", config)
     assert hash1 == hash2
 
 

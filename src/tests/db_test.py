@@ -1,43 +1,60 @@
 import os
 
-from src.const import DB_PATH, TRANSCRIBE_DB_NAME
-from src.database import create_db, setup_db, insert_row, get_transcription_by_hash
+from src.notely.config import config_exists, make_default_config, init_config
+from src.notely.database import (
+    create_db,
+    setup_db,
+    insert_row,
+    get_transcription_by_hash_and_model,
+)
 
 
 def test_setup_db():
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
+    if not config_exists():
+        make_default_config()
+    config = init_config()
 
-    cur, conn = create_db(DB_PATH)
+    if os.path.exists(config["DB_PATH"]):
+        os.remove(config["DB_PATH"])
+
+    cur, conn = create_db(config)
     assert cur.rowcount == -1
 
-    setup_db(cur, conn)
+    setup_db(cur, conn, config)
     assert cur.rowcount == -1
     conn.close()
 
 
 def test_double_setup_db():
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
+    if not config_exists():
+        make_default_config()
+    config = init_config()
 
-    cur, conn = create_db(DB_PATH)
+    if os.path.exists(config["DB_PATH"]):
+        os.remove(config["DB_PATH"])
+
+    cur, conn = create_db(config)
     assert cur.rowcount == -1
 
-    setup_db(cur, conn)
+    setup_db(cur, conn, config)
     assert cur.rowcount == -1
-    setup_db(cur, conn)
+    setup_db(cur, conn, config)
     assert cur.rowcount == -1
     conn.close()
 
 
 def test_db_entry():
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
+    if not config_exists():
+        make_default_config()
+    config = init_config()
 
-    cur, conn = create_db(DB_PATH)
+    if os.path.exists(config["DB_PATH"]):
+        os.remove(config["DB_PATH"])
+
+    cur, conn = create_db(config)
     assert cur.rowcount == -1
 
-    setup_db(cur, conn)
+    setup_db(cur, conn, config)
     assert cur.rowcount == -1
 
     test_row = {
@@ -49,11 +66,12 @@ def test_db_entry():
     insert_row(
         cur,
         conn,
-        TRANSCRIBE_DB_NAME,
+        config["TRANSCRIBE_DB_NAME"],
         test_row,
+        config,
     )
 
-    row = get_transcription_by_hash(cur, "101-test-101-audio")
+    row = get_transcription_by_hash_and_model(cur, "101-test-101-audio", config)
     assert row is not None
     assert test_row["audio_file_hash"] in row["audio_file_hash"]
     assert test_row["transcription_location"] in row["transcription_location"]
@@ -63,13 +81,17 @@ def test_db_entry():
 
 
 def test_duplicate_db_entry():
-    if os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
+    if not config_exists():
+        make_default_config()
+    config = init_config()
 
-    cur, conn = create_db(DB_PATH)
+    if os.path.exists(config["DB_PATH"]):
+        os.remove(config["DB_PATH"])
+
+    cur, conn = create_db(config)
     assert cur.rowcount == -1
 
-    setup_db(cur, conn)
+    setup_db(cur, conn, config)
     assert cur.rowcount == -1
 
     test_row = {
@@ -81,11 +103,12 @@ def test_duplicate_db_entry():
     insert_row(
         cur,
         conn,
-        TRANSCRIBE_DB_NAME,
+        config["TRANSCRIBE_DB_NAME"],
         test_row,
+        config,
     )
 
-    row = get_transcription_by_hash(cur, "101-test-101-audio")
+    row = get_transcription_by_hash_and_model(cur, "101-test-101-audio", config)
     assert row is not None
     assert test_row["audio_file_hash"] in row["audio_file_hash"]
     assert test_row["transcription_location"] in row["transcription_location"]
@@ -100,11 +123,12 @@ def test_duplicate_db_entry():
     insert_row(
         cur,
         conn,
-        TRANSCRIBE_DB_NAME,
+        config["TRANSCRIBE_DB_NAME"],
         test_row,
+        config,
     )
 
-    row = get_transcription_by_hash(cur, "101-test-101-audio")
+    row = get_transcription_by_hash_and_model(cur, "101-test-101-audio", config)
     assert row is not None
     assert test_row["audio_file_hash"] in row["audio_file_hash"]
     assert test_row["transcription_location"] in row["transcription_location"]
@@ -118,11 +142,12 @@ def test_duplicate_db_entry():
     insert_row(
         cur,
         conn,
-        TRANSCRIBE_DB_NAME,
+        config["TRANSCRIBE_DB_NAME"],
         test_row2,
+        config,
     )
 
-    row = get_transcription_by_hash(cur, "101-test-101-audio")
+    row = get_transcription_by_hash_and_model(cur, "101-test-101-audio", config)
     assert row is not None
     assert test_row["audio_file_hash"] in row["audio_file_hash"]
     assert test_row["transcription_location"] in row["transcription_location"]

@@ -1,45 +1,49 @@
 import ollama
 from ollama import GenerateResponse
 
-from src.const import NOTE_MODEL, NOTES_DB_NAME
-from src.database import get_note_by_hash, insert_row, update_note
-from src.fileactions import read_file, get_file_hash, write_note
+from .database import get_note_by_hash, insert_row, update_note
+from .fileactions import read_file, get_file_hash, write_note
 
 
-def get_ollama_response(cur, conn, transcription_location, prompt_location, file_id):
+def get_ollama_response(
+    cur, conn, transcription_location, prompt_location, file_id, config
+):
     transcription_content = read_file(transcription_location)
-    transcription_hash = get_file_hash(transcription_location)
+    transcription_hash = get_file_hash(transcription_location, config)
     prompt_content = read_file(prompt_location)
 
     res: GenerateResponse = ollama.generate(
-        model=NOTE_MODEL,
-        prompt=f"{prompt_content}\n\nFILE CONTENT:\n{transcription_content}",
+        model=config["output_model"],
+        prompt=f"{prompt_content}\n\n## FILE CONTENT:\n{transcription_content}",
         keep_alive=0,
     )
-    note_location = write_note(res.response, file_id)
-    note_hash = get_file_hash(note_location)
+    note_location = write_note(res.response, file_id, config)
+    note_hash = get_file_hash(note_location, config)
 
-    note_row = get_note_by_hash(cur, transcription_hash)
+    note_row = get_note_by_hash(cur, transcription_hash, config)
     if note_row is None:
         insert_row(
             cur,
             conn,
-            NOTES_DB_NAME,
+            config["NOTES_DB_NAME"],
             {
                 "transcription_location": transcription_location,
                 "transcription_hash": transcription_hash,
                 "note_location": note_location,
                 "note_hash": note_hash,
             },
+            config,
         )
     else:
         update_note(
             cur,
+            conn,
             transcription_hash,
             {
                 "transcription_location": transcription_location,
                 "note_location": note_location,
                 "note_hash": note_hash,
             },
+            config,
         )
     return note_location

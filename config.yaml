@@ -1,0 +1,16 @@
+---
+transcripts_folder: "./transcripts"
+output_folder: "./output"
+# Recommended transcription models:
+# - turbo: Fastest, least accurate;
+# - medium: Best all-rounder;
+# - medium.en: Even better for english language;
+# - Large: Slowest, most accurate;
+# See https://github.com/openai/whisper?tab=readme-ov-file#available-models-and-languages for more information.
+transcription_model: "turbo"
+# Recommended output models:
+# - gemma3:4b: Strong for small systems
+# - deepseek-r1:7b: Thinking model, strong for small systems
+# - gpt-oss:20b: For more powerful systems
+# See https://ollama.com/library for more information. Not all models are available locally.
+output_model: "deepseek-r1:7b"
