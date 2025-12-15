@@ -31,7 +31,7 @@ def main():
         setup_db(db_cur, db_conn, config)
 
         if len(sys.argv) != 3:
-            raise Exception("Usage: notely {audio_file} {prompt_file}")
+            raise Exception("Usage: tome {audio_file} {prompt_file}")
         audio_file_path = sys.argv[1]
         prompt_file_path = sys.argv[2]
         prompt_extension = get_extension(prompt_file_path)

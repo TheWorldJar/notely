@@ -1,5 +1,5 @@
-from src.notely import fileactions
-from src.notely.config import config_exists, make_default_config, init_config
+from src.tome import fileactions
+from src.tome.config import config_exists, make_default_config, init_config
 
 
 def test_get_extension():

@@ -1,7 +1,7 @@
 import os
 
-from src.notely.config import config_exists, make_default_config, init_config
-from src.notely.database import (
+from src.tome.config import config_exists, make_default_config, init_config
+from src.tome.database import (
     create_db,
     setup_db,
     insert_row,

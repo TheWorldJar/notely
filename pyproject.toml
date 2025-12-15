@@ -2,8 +2,8 @@
 requires = ["setuptools>=45.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 [project]
-name = "notely"
-version = "1.0.0"
+name = "tome"
+version = "1.0.1"
 dependencies = [
     "torch",
     "torchvision",
@@ -39,7 +39,7 @@ exclude = '''
     )/
 '''
 [project.scripts]
-notely = "notely.__main__:main"
+tome = "tome.__main__:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

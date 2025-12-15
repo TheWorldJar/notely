@@ -1,10 +1,10 @@
 # Tome
 Name chosen for comedic purposes. This is not meant to be a serious product. This was made for personal and educational purposes.
 
-Notely is a python script that takes in a video or audio file as input, transcribes it using [Whisper](https://github.com/openai/whisper) and then feeds the transcript and a prompt to an LLM using [Ollama](https://github.com/ollama/ollama-python) to obtain notes, highlights, and other outputs as specified by the prompt.
+Tome is a python script that takes in a video or audio file as input, transcribes it using [Whisper](https://github.com/openai/whisper) and then feeds the transcript and a prompt to an LLM using [Ollama](https://github.com/ollama/ollama-python) to obtain notes, highlights, and other outputs as specified by the prompt.
 
 ## Motivation
-As a forever GM, I have very little oppotunity to take notes on what happened in a Pathfinder session while I'm actively running it. Taking notes after the fact quickly becomes unreliable if the session was front-loaded, became somewhat of a strain on my schedule for a late Sunday night, and was boring after the fun of the session itself. One solution was this: use AI to create transcripts of a session and then make notes from that transcript. Two problem: a 4-hour session produces a lot of text and I don't want to pay 20$ a month *just* for that.
+As a forever GM, I have very little opportunity to take notes on what happened in a Pathfinder session while I'm actively running it. Taking notes after the fact quickly becomes unreliable if the session was front-loaded, became somewhat of a strain on my schedule for a late Sunday night, and was boring after the fun of the session itself. One solution was this: use AI to create transcripts of a session and then make notes from that transcript. Two problem: a 4-hour session produces a lot of text and I don't want to pay 20$ a month *just* for that.
 So I made **Tome** to run the AI process I wanted entirely on my machine. From there, I added a SQLite database, a configuration file, and changed the functionality to use prompt files to exetend this script into use cases beyond mine!
 ## Requirements
 - Python 3.9+
@@ -36,11 +36,11 @@ Then, you can pull your desired Ollama model inside your environment after [manu
 ## Quickstart
 Once installed, the script can be used with the following command:
 
-`notely {path_to_audio_file} {path_to_prompt}`
+`tome {path_to_audio_file} {path_to_prompt}`
 
 Like this:
 
-`notely ./my_audio.mp3 ./my_prompt.txt`
+`tome ./my_audio.mp3 ./my_prompt.txt`
 
 The script will create a local SQLite database to store some of its actions, as well as a transcript and output folder, as specified in `config.yaml`.
 
@@ -67,7 +67,7 @@ See [here](https://github.com/openai/whisper?tab=readme-ov-file#available-models
 ### Ollama Models
 Only local models are supported. See [here](https://ollama.com/library) for a list of models. Not all models are available locally.
 ### Any Other Problem
-Please report any other problem in the [issues](https://github.com/TheWorldJar/notely/issues) section of this repo. Unhandled exceptions will prompt you to do so!
+Please report any other problem in the [issues](https://github.com/TheWorldJar/tome/issues) section of this repo. Unhandled exceptions will prompt you to do so!
 ### Performance Tips
 Systems with only 8GB of VRAM should stick to models around 8b and under.
 
@@ -81,4 +81,4 @@ LLMs are never guaranteed to produce the same output twice.
 If you'd like to contribute, please fork the repository and submit a pull request to the `main` branch.
 
 ## License
-See our license [here](https://github.com/TheWorldJar/notely/blob/main/LICENSE)
+See our license [here](https://github.com/TheWorldJar/tome/blob/main/LICENSE)
