@@ -32,7 +32,7 @@ Then, you can pull your desired Ollama model inside your environment after [manu
 
 `ollama pull {model}`
 
-## Quickstart
+## Quick Start
 Once installed, the script can be used with the following command:
 
 `tome {path_to_audio_file} {path_to_prompt}`
