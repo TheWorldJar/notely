@@ -1,6 +1,4 @@
 # Tome
-Name chosen for comedic purposes. This is not meant to be a serious product. This was made for personal and educational purposes.
-
 Tome is a python script that takes in a video or audio file as input, transcribes it using [Whisper](https://github.com/openai/whisper) and then feeds the transcript and a prompt to an LLM using [Ollama](https://github.com/ollama/ollama-python) to obtain notes, highlights, and other outputs as specified by the prompt.
 
 ## Motivation
