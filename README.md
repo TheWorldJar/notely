@@ -1,10 +1,9 @@
 # Tome
-Name chosen for comedic purposes. This is not meant to be a serious product. This was made for personal and educational purposes.
-
 Tome is a python script that takes in a video or audio file as input, transcribes it using [Whisper](https://github.com/openai/whisper) and then feeds the transcript and a prompt to an LLM using [Ollama](https://github.com/ollama/ollama-python) to obtain notes, highlights, and other outputs as specified by the prompt.
 
 ## Motivation
 As a forever GM, I have very little opportunity to take notes on what happened in a Pathfinder session while I'm actively running it. Taking notes after the fact quickly becomes unreliable if the session was front-loaded, became somewhat of a strain on my schedule for a late Sunday night, and was boring after the fun of the session itself. One solution was this: use AI to create transcripts of a session and then make notes from that transcript. Two problem: a 4-hour session produces a lot of text and I don't want to pay 20$ a month *just* for that.
+
 So I made **Tome** to run the AI process I wanted entirely on my machine. From there, I added a SQLite database, a configuration file, and changed the functionality to use prompt files to exetend this script into use cases beyond mine!
 ## Requirements
 - Python 3.9+
@@ -33,7 +32,7 @@ Then, you can pull your desired Ollama model inside your environment after [manu
 
 `ollama pull {model}`
 
-## Quickstart
+## Quick Start
 Once installed, the script can be used with the following command:
 
 `tome {path_to_audio_file} {path_to_prompt}`
